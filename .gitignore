@@ -1,0 +1,59 @@
+# Зависимости, сборка и кэши
+node_modules/
+dist/
+dist-ssr/
+*.tsbuildinfo
+*.local
+
+# Окружение и ключи: публикуется только шаблон
+.env
+.env.*
+!.env.local.example
+*.pem
+*.key
+
+# Локальные базы, резервные копии и логи
+*.db
+*.db-*
+*.sqlite
+*.sqlite3
+*.sqlite-*
+*.sqlite3-*
+*.dump
+*.backup
+logs/
+*.log
+
+# Локальная привязка сервисов и настройки редакторов
+.vercel/
+.codex/
+.claude/
+.idea/
+.vscode/
+.DS_Store
+*.sw?
+
+# Рабочие заметки и локальные материалы
+AGENTS.md
+CLAUDE.md
+QUICKSTART.md
+calorie_tracker_mvp_codex_spec.md
+philosophy/
+Пример/
+*.zip
+*.fb2*
+public/tribute-covers/
+
+# В AI-каталоге публикуются только воспроизводимые тестовые примеры
+ai/*
+!ai/qa/
+ai/qa/*
+!ai/qa/brand-search-whitelist.json
+!ai/qa/food-eval-v1.json
+!ai/qa/private-food-eval.example.json
+!ai/qa/photo-assets/
+
+# Реальные пользовательские фото и результаты проверок остаются локально
+ai/qa/private-food-eval.json
+ai/qa/private-photo-assets/
+ai/qa/private-reports/

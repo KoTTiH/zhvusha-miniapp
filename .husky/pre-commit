@@ -1,0 +1,16 @@
+pnpm exec lint-staged
+pnpm typecheck
+pnpm barcode:check
+pnpm day-voice:check
+pnpm philosophy:check
+pnpm nutrition:check
+pnpm ai:search-whitelist:check
+pnpm ai-credit:check
+pnpm ai-privacy:check
+pnpm assistant:check
+pnpm storage-status:check
+pnpm app-readiness:check
+pnpm quality-map:check
+pnpm widgets:check
+pnpm data-export:check
+pnpm accessibility:check

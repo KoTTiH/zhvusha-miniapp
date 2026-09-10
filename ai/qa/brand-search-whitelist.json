@@ -1,0 +1,13 @@
+{
+  "version": 1,
+  "updatedAt": "2026-05-04",
+  "purpose": "Ручной allowlist брендов/SKU для будущего web search в AI-распознавании еды. Пустой список означает: web search не разрешён ни для одного бренда.",
+  "policy": {
+    "requiresManualApproval": true,
+    "requiresBrandReport": true,
+    "allowedUse": "Только уточнение КБЖУ/SKU для явно названного пользователем бренда или продукта.",
+    "forbiddenUse": "Нельзя искать по любому тексту пользователя, по домашней еде, общим блюдам или без явного совпадения с approvedBrands."
+  },
+  "sourceReports": [],
+  "approvedBrands": []
+}

@@ -1,0 +1,153 @@
+name: Quality Gates
+
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 10
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: 'pnpm'
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Check
+        run: pnpm check
+
+      - name: Build
+        run: pnpm build
+
+      - name: Bundle budget
+        run: pnpm bundle:check
+
+  smart-history-smoke:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    continue-on-error: true
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 10
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: 'pnpm'
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Locate Chrome
+        id: chrome
+        shell: bash
+        run: |
+          for bin in google-chrome-stable google-chrome chromium chromium-browser; do
+            if command -v "$bin" >/dev/null 2>&1; then
+              echo "bin=$(command -v "$bin")" >> "$GITHUB_OUTPUT"
+              exit 0
+            fi
+          done
+          echo "::warning::Chrome/Chromium not found; smart-history smoke skipped"
+
+      - name: Smart History browser smoke
+        if: steps.chrome.outputs.bin != ''
+        env:
+          CHROME_BIN: ${{ steps.chrome.outputs.bin }}
+        run: pnpm smoke:smart-history
+
+  data-export-smoke:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    continue-on-error: true
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 10
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: 'pnpm'
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Locate Chrome
+        id: chrome
+        shell: bash
+        run: |
+          for bin in google-chrome-stable google-chrome chromium chromium-browser; do
+            if command -v "$bin" >/dev/null 2>&1; then
+              echo "bin=$(command -v "$bin")" >> "$GITHUB_OUTPUT"
+              exit 0
+            fi
+          done
+          echo "::warning::Chrome/Chromium not found; data export smoke skipped"
+
+      - name: Data Export browser smoke
+        if: steps.chrome.outputs.bin != ''
+        env:
+          CHROME_BIN: ${{ steps.chrome.outputs.bin }}
+        run: pnpm smoke:data-export
+
+  accessibility-smoke:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    continue-on-error: true
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 10
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: 'pnpm'
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Locate Chrome
+        id: chrome
+        shell: bash
+        run: |
+          for bin in google-chrome-stable google-chrome chromium chromium-browser; do
+            if command -v "$bin" >/dev/null 2>&1; then
+              echo "bin=$(command -v "$bin")" >> "$GITHUB_OUTPUT"
+              exit 0
+            fi
+          done
+          echo "::warning::Chrome/Chromium not found; accessibility smoke skipped"
+
+      - name: Accessibility browser smoke
+        if: steps.chrome.outputs.bin != ''
+        env:
+          CHROME_BIN: ${{ steps.chrome.outputs.bin }}
+        run: pnpm smoke:accessibility

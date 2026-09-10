@@ -1,0 +1,94 @@
+{
+  "name": "zhvusha-miniapp",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "engines": {
+    "node": ">=22.18.0",
+    "pnpm": ">=10"
+  },
+  "scripts": {
+    "dev": "vite",
+    "typecheck": "tsc -b --noEmit",
+    "build": "tsc -b && vite build",
+    "lint": "eslint .",
+    "check": "pnpm typecheck && pnpm lint && pnpm barcode:check && pnpm day-voice:check && pnpm philosophy:check && pnpm nutrition:check && pnpm ai:search-whitelist:check && pnpm ai-credit:check && pnpm ai-privacy:check && pnpm assistant:check && pnpm storage-status:check && pnpm app-readiness:check && pnpm quality-map:check && pnpm widgets:check && pnpm data-export:check && pnpm accessibility:check && pnpm quality-gate:check",
+    "bundle:check": "node scripts/check-bundle-budget.mjs",
+    "preview": "vite preview",
+    "db:migrate": "node scripts/migrate.mjs",
+    "barcode:check": "node scripts/check-barcode-normalize.mjs",
+    "day-voice:check": "node scripts/check-day-voice-contract.mjs",
+    "philosophy:check": "node scripts/check-philosophy-guard.mjs",
+    "nutrition:check": "node scripts/check-nutrition-disclosure.mjs",
+    "smoke:smart-history": "node scripts/smoke-smart-history.mjs",
+    "smoke:data-export": "node scripts/smoke-data-export.mjs",
+    "smoke:accessibility": "node scripts/smoke-accessibility.mjs",
+    "ai:brand-report": "node scripts/report-ai-brand-candidates.mjs",
+    "ai:search-whitelist:check": "node scripts/check-ai-search-whitelist.mjs",
+    "ai-credit:check": "node scripts/check-ai-credit-contract.mjs",
+    "ai-privacy:check": "node scripts/check-ai-privacy-contract.mjs",
+    "assistant:check": "node scripts/check-assistant-contract.mjs",
+    "smoke:assistant": "node scripts/smoke-assistant.mjs",
+    "smoke:assistant-prompt": "node scripts/smoke-assistant-prompt.mjs",
+    "smoke:assistant-photo": "node scripts/smoke-assistant-photo.mjs",
+    "assistant:scenario-loop": "node scripts/run-assistant-scenario-loop.mjs",
+    "storage-status:check": "node scripts/check-storage-status-contract.mjs",
+    "app-readiness:check": "node scripts/check-app-readiness-contract.mjs",
+    "quality-map:check": "node scripts/check-quality-map-contract.mjs",
+    "widgets:check": "node scripts/check-widget-defaults.mjs",
+    "data-export:check": "node scripts/check-data-export-contract.mjs",
+    "accessibility:check": "node scripts/check-accessibility-contract.mjs",
+    "quality-gate:check": "node scripts/check-quality-gate-contract.mjs",
+    "dev:hash-ids": "node scripts/hash-developer-ids.mjs",
+    "prepare": "husky"
+  },
+  "dependencies": {
+    "@dnd-kit/core": "^6.3.1",
+    "@dnd-kit/sortable": "^10.0.0",
+    "@dnd-kit/utilities": "^3.2.2",
+    "@tma.js/sdk-react": "^3.0.19",
+    "@vercel/blob": "^2.4.0",
+    "@zxing/browser": "^0.1.5",
+    "date-fns": "^4.1.0",
+    "pg": "^8.20.0",
+    "react": "^19.2.5",
+    "react-colorful": "^5.6.1",
+    "react-dom": "^19.2.5",
+    "zustand": "^5.0.12"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.39.4",
+    "@tailwindcss/vite": "^4.2.2",
+    "@types/node": "^24.12.2",
+    "@types/pg": "^8.20.0",
+    "@types/react": "^19.2.14",
+    "@types/react-dom": "^19.2.3",
+    "@vercel/node": "^5.7.13",
+    "@vitejs/plugin-react": "^6.0.1",
+    "eslint": "^9.39.4",
+    "eslint-plugin-react-hooks": "^7.1.1",
+    "eslint-plugin-react-refresh": "^0.5.2",
+    "globals": "^17.5.0",
+    "husky": "^9.1.7",
+    "lint-staged": "^16.4.0",
+    "rollup-plugin-visualizer": "^7.0.1",
+    "tailwindcss": "^4.2.2",
+    "typescript": "~6.0.2",
+    "typescript-eslint": "^8.58.2",
+    "vite": "^8.0.9"
+  },
+  "lint-staged": {
+    "*.{ts,tsx,js,jsx,mjs,cjs}": [
+      "eslint --fix"
+    ]
+  },
+  "pnpm": {
+    "_comment_overrides": "@vercel/node тянет уязвимые undici/minimatch/ajv/smol-toml. Это dev-only (типы VercelRequest/Response), на runtime Vercel Functions эти версии не летят — но чтобы pnpm audit был чистым, форсируем пропатченные транзитивные зависимости.",
+    "overrides": {
+      "undici": ">=6.24.0",
+      "minimatch@>=10.0.0 <10.2.3": ">=10.2.3",
+      "ajv@>=7.0.0 <8.18.0": ">=8.18.0",
+      "smol-toml": ">=1.6.1"
+    }
+  }
+}
